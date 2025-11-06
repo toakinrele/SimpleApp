@@ -58,7 +58,10 @@ def login():
 
 @app.route('/ping')
 def ping():
+    allowed_hosts = ['localhost', '127.0.0.1']
     host = request.args.get('host', 'localhost')
+    if host not in allowed_hosts:
+        return "Invalid host", 400
     result = os.popen(f'ping -c 1 {host}').read()
     return f'<pre>{result}</pre>'
 
