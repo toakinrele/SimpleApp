@@ -40,8 +40,8 @@ def login():
         
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
-        query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
-        cursor.execute(query)
+        query = "SELECT * FROM users WHERE username = ? AND password = ?"
+        cursor.execute(query, (username, password))
         user = cursor.fetchone()
         conn.close()
         
