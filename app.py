@@ -68,9 +68,13 @@ def ping():
 
 @app.route('/read_file')
 def read_file():
+    BASE_DIR = os.path.abspath("safe_files")
     filename = request.args.get('file', 'default.txt')
+    safe_path = os.path.normpath(os.path.join(BASE_DIR, filename))
     try:
-        with open(filename, 'r') as f:
+        if not safe_path.startswith(BASE_DIR):
+            return "File not found"
+        with open(safe_path, 'r') as f:
             content = f.read()
         return f'<pre>{content}</pre>'
     except:
